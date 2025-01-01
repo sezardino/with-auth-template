@@ -13,16 +13,7 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    networks:
-      - app_dev
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - '8080:8080'
     networks:
       - app_dev
 
