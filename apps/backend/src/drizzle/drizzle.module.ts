@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { drizzle } from 'drizzle-orm/node-postgres/driver';
+import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres/driver';
 import { Pool } from 'pg';
 
-import { DBSchema, dbSchema } from 'drizzle';
+import { dbSchema } from 'drizzle';
 
 export const DRIZZLE = Symbol('drizzle-connection');
+
+export type DrizzleDBSchema = NodePgDatabase<typeof dbSchema>;
 
 @Module({
   providers: [
@@ -17,7 +19,7 @@ export const DRIZZLE = Symbol('drizzle-connection');
           connectionString: configService.get<string>('POSTGRES_URL'),
         });
 
-        return drizzle(pool, { schema: dbSchema }) as DBSchema;
+        return drizzle(pool, { schema: dbSchema }) as DrizzleDBSchema;
       },
     },
   ],
