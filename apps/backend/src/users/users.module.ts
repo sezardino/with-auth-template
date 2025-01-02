@@ -5,7 +5,8 @@ import { UsersService } from './users.service';
 
 @Module({
   controllers: [UsersController],
-  providers: [DrizzleModule, UsersService],
+  providers: [UsersService],
+  imports: [DrizzleModule],
   exports: [UsersService],
 })
 export class UsersModule {}
