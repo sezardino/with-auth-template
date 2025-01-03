@@ -32,6 +32,9 @@ export class UsersService {
       ? eq(users.id, filter.id)
       : ilike(users.login, filter.login);
 
-    return await this.drizzle.query.users.findFirst({ where });
+    return await this.drizzle.query.users.findFirst({
+      where,
+      columns: { id: true, login: true, password: true },
+    });
   }
 }
