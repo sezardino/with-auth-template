@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { hash } from 'argon2';
-import { eq } from 'drizzle-orm';
+import { eq, ilike } from 'drizzle-orm';
 import { users } from 'drizzle/schema';
 import { DRIZZLE, DrizzleDBSchema } from 'src/drizzle/drizzle.module';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -10,12 +10,13 @@ export class UsersService {
   constructor(@Inject(DRIZZLE) private readonly drizzle: DrizzleDBSchema) {}
 
   async createUser(dto: CreateUserDto) {
-    const { password, ...restDto } = dto;
+    const { password, login, ...restDto } = dto;
 
     const hashedPassword = await hash(password);
 
     await this.drizzle.insert(users).values({
       password: hashedPassword,
+      login: login.toLowerCase(),
       ...restDto,
     });
   }
@@ -29,7 +30,7 @@ export class UsersService {
 
     const where = filter.id
       ? eq(users.id, filter.id)
-      : eq(users.login, filter.login);
+      : ilike(users.login, filter.login);
 
     return await this.drizzle.query.users.findFirst({ where });
   }

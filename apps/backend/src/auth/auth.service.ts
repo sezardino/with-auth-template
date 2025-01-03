@@ -9,7 +9,7 @@ export class AuthService {
   async register(dto: CreateUserDto) {
     const user = await this.usersService.findOne({ login: dto.login });
 
-    if (user.id) throw new ForbiddenException('Login already used');
+    if (user) throw new ForbiddenException('Login already used');
 
     await this.usersService.createUser(dto);
   }

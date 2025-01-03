@@ -3,6 +3,10 @@ import { IsString, MaxLength } from 'class-validator';
 export class CreateUserDto {
   @IsString()
   @MaxLength(256)
+  name: string;
+
+  @IsString()
+  @MaxLength(256)
   login: string;
 
   @IsString()
