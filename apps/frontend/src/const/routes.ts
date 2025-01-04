@@ -5,5 +5,14 @@ export const ApplicationRoutes = Object.freeze({
   },
   landing: {
     home: "/",
+    about: "/about",
+    contact: "/contact",
+    terms: "/terms",
+    protected: "/protected",
+    admin: "/admin",
+    customer: "/customer",
+  },
+  application: {
+    dashboard: "/dashboard",
   },
 });
