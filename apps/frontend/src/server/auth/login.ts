@@ -31,6 +31,7 @@ export const loginAction = async (
       id: resJson.id,
       login: resJson.login,
     },
+    accessToken: resJson.accessToken,
   });
   redirect(ApplicationRoutes.landing.home);
 };

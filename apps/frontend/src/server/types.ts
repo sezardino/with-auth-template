@@ -10,6 +10,6 @@ export type Session = {
     id: string;
     login: string;
   };
-  // accessToken: string;
+  accessToken: string;
   // refreshToken: string
 };
