@@ -16,3 +16,9 @@ export const ApplicationRoutes = Object.freeze({
     dashboard: "/dashboard",
   },
 });
+
+export const ApiRoutes = Object.freeze({
+  auth: {
+    logout: "/api/auth/logout",
+  },
+});

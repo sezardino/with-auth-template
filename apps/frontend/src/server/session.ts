@@ -41,7 +41,7 @@ export const getSession = async () => {
       algorithms: ["HS256"],
     });
 
-    return payload;
+    return payload as Session;
   } catch (error) {
     console.log("Error when try to verify session");
     redirectPath = ApplicationRoutes.auth.login;
