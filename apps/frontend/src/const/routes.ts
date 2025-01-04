@@ -15,6 +15,7 @@ export const ApplicationRoutes = Object.freeze({
   application: {
     dashboard: "/dashboard",
   },
+  notFound: "/404",
 });
 
 export const ApiRoutes = Object.freeze({

@@ -30,6 +30,10 @@ export const createSession = async (payload: Session) => {
   });
 };
 
+export const deleteSession = async () => {
+  (await cookies()).delete(SESSION_COOKIE_NAME);
+};
+
 export const getSession = async () => {
   const cookie = (await cookies()).get(SESSION_COOKIE_NAME)?.value;
   if (!cookie) return null;

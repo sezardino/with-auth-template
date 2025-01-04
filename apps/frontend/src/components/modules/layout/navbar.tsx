@@ -82,7 +82,7 @@ export const Navbar = (props: NavbarProps) => {
 
           {isUserAuthenticated && (
             <Button asChild>
-              <Link href={ApiRoutes.auth.logout}>Log Out</Link>
+              <a href={ApiRoutes.auth.logout}>Log Out</a>
             </Button>
           )}
 
