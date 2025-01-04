@@ -90,7 +90,7 @@ export const Navbar = (props: NavbarProps) => {
           <div
             className={cn(
               "justify-between items-center w-full lg:flex lg:w-auto lg:order-1",
-              isMenuOpened && "hidden lg:flex"
+              !isMenuOpened && "hidden lg:flex"
             )}
             id={menuId}
           >
