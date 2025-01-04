@@ -1,9 +1,15 @@
 import { LoginForm } from "@/components/forms/login";
 import { ApplicationRoutes } from "@/const/routes";
-import { loginAction } from "@/server/auth/login";
+import { loginAction } from "@/server";
+import { Metadata } from "next";
 import Link from "next/link";
 
-const RegistrationPage = () => {
+export const metadata: Metadata = {
+  title: "Login",
+  description: "Here you can login to the platform",
+};
+
+const LoginPage = () => {
   return (
     <main>
       <header className="mb-6 flex flex-col items-center">
@@ -27,4 +33,4 @@ const RegistrationPage = () => {
   );
 };
 
-export default RegistrationPage;
+export default LoginPage;

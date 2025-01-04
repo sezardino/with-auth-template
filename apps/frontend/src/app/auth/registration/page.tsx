@@ -1,6 +1,6 @@
 import { RegistrationForm } from "@/components/forms/registration";
 import { ApplicationRoutes } from "@/const/routes";
-import { registrationAction } from "@/server/auth/registration";
+import { registrationAction } from "@/server";
 import { Metadata } from "next";
 import Link from "next/link";
 

@@ -1,9 +1,9 @@
 "use server";
 
 import { LoginFormSchema, LoginFormValues } from "@/components/forms/login";
-import { cleanFetch } from "../fetch";
-import { validateFormData } from "../helpers";
+
 import { FormState } from "../types";
+import { validateFormData, cleanFetch } from "../utils";
 
 export const loginAction = async (
   state: FormState<LoginFormValues>,

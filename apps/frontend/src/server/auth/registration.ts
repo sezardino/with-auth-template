@@ -6,9 +6,8 @@ import {
 } from "@/components/forms/registration";
 import { ApplicationRoutes } from "@/const/routes";
 import { redirect, RedirectType } from "next/navigation";
-import { cleanFetch } from "../fetch";
-import { validateFormData } from "../helpers";
 import { FormState } from "../types";
+import { validateFormData, cleanFetch } from "../utils";
 
 export const registrationAction = async (
   state: FormState<RegistrationFormValues>,

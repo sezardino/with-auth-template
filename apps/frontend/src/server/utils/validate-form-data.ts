@@ -1,5 +1,7 @@
+"use server";
+
 import { ZodSchema } from "zod";
-import { FormState } from "./types";
+import { FormState } from "../types";
 
 export const validateFormData = <T extends Record<string, any>>(
   schema: ZodSchema<T>,
