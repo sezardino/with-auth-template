@@ -1,5 +1,3 @@
-"use server";
-
 const origin = process.env.BACKEND_URL;
 
 export const cleanFetch = (input: RequestInfo | URL, init?: RequestInit) =>

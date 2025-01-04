@@ -2,8 +2,11 @@
 
 import { LoginFormSchema, LoginFormValues } from "@/components/forms/login";
 
+import { ApplicationRoutes } from "@/const/routes";
+import { redirect } from "next/navigation";
+import { createSession } from "../session";
 import { FormState } from "../types";
-import { validateFormData, cleanFetch } from "../utils";
+import { cleanFetch, validateFormData } from "../utils";
 
 export const loginAction = async (
   state: FormState<LoginFormValues>,
@@ -23,6 +26,11 @@ export const loginAction = async (
     return { message: resJson.message };
   }
 
-  console.log(resJson);
-  return { message: "123" };
+  await createSession({
+    user: {
+      id: resJson.id,
+      login: resJson.login,
+    },
+  });
+  redirect(ApplicationRoutes.landing.home);
 };

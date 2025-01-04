@@ -4,3 +4,12 @@ export type FormState<T extends Record<string, any>> = {
     [K in keyof T]?: string[];
   };
 };
+
+export type Session = {
+  user: {
+    id: string;
+    login: string;
+  };
+  // accessToken: string;
+  // refreshToken: string
+};

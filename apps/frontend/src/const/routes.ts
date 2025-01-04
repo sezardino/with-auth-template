@@ -3,4 +3,7 @@ export const ApplicationRoutes = Object.freeze({
     login: "/auth/login",
     registration: "/auth/registration",
   },
+  landing: {
+    home: "/",
+  },
 });

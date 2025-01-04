@@ -1,5 +1,3 @@
-"use server";
-
 import { ZodSchema } from "zod";
 import { FormState } from "../types";
 
