@@ -1,6 +1,5 @@
+import { REGEX_LOGIN } from "@/const/regext";
 import { z } from "zod";
-
-const REGEX_LOGIN = /^[a-zA-Z0-9](?:[a-zA-Z0-9._]{1,18}[a-zA-Z0-9])?$/;
 
 export const RegistrationFormSchema = z
   .object({

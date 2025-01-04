@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { LoginForm } from "@/components/forms/login";
 import { ApplicationRoutes } from "@/const/routes";
+import { loginAction } from "@/server/auth/login";
 import Link from "next/link";
 
 const RegistrationPage = () => {
@@ -11,25 +11,7 @@ const RegistrationPage = () => {
         <p className="text-muted-foreground">Enter your information to login</p>
       </header>
 
-      <form className="grid gap-4">
-        <Input
-          type="text"
-          name="login"
-          placeholder="Enter your login"
-          required
-        />
-
-        <Input
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-          required
-        />
-
-        <Button type="submit" className="mt-2 w-full">
-          Login
-        </Button>
-      </form>
+      <LoginForm action={loginAction} />
       {/* TODO: add login by Google */}
 
       <footer className="mx-auto mt-8 flex justify-center gap-1 text-sm text-muted-foreground">
