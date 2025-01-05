@@ -9,22 +9,25 @@ import { JwtService } from '@nestjs/jwt';
 import { verify } from 'argon2';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
-import { accessTokenConfig } from './config/access-token.config';
-import { refreshTokenConfig } from './config/refresh-token.config';
-import { AccessTokenPayload } from './types/access-token-payload.types';
+import { accessTokenJwtConfig } from './config/access-token.config';
+import { refreshTokenJwtConfig } from './config/refresh-token.config';
+import {
+  AccessTokenPayload,
+  RefreshTokenPayload,
+} from './types/token-payloads';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    @Inject(accessTokenConfig.KEY)
+    @Inject(accessTokenJwtConfig.KEY)
     private readonly accessTokenConfiguration: ConfigType<
-      typeof accessTokenConfig
+      typeof accessTokenJwtConfig
     >,
-    @Inject(refreshTokenConfig.KEY)
+    @Inject(refreshTokenJwtConfig.KEY)
     private readonly refreshTokenConfiguration: ConfigType<
-      typeof refreshTokenConfig
+      typeof refreshTokenJwtConfig
     >,
   ) {}
 
@@ -49,6 +52,13 @@ export class AuthService {
   }
 
   async login(userId: string, login: string) {
+    const { access: accessToken, refresh: refreshToken } =
+      await this.generateTokens(userId);
+
+    return { userId, login, accessToken, refreshToken };
+  }
+
+  async refreshTokens(userId: string, login: string) {
     const { access: accessToken, refresh: refreshToken } =
       await this.generateTokens(userId);
 
@@ -80,6 +90,14 @@ export class AuthService {
   }
 
   async validateAccessToken(payload: AccessTokenPayload) {
+    const neededUser = await this.usersService.findOne({ id: payload.sub });
+
+    if (!neededUser) throw new UnauthorizedException();
+
+    return { id: neededUser.id, login: neededUser.login };
+  }
+
+  async validateRefreshToken(payload: RefreshTokenPayload) {
     const neededUser = await this.usersService.findOne({ id: payload.sub });
 
     if (!neededUser) throw new UnauthorizedException();

@@ -5,20 +5,26 @@ import { DrizzleModule } from 'src/drizzle/drizzle.module';
 import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { accessTokenConfig } from './config/access-token.config';
-import { refreshTokenConfig } from './config/refresh-token.config';
+import { accessTokenJwtConfig } from './config/access-token.config';
+import { refreshTokenJwtConfig } from './config/refresh-token.config';
 import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
+import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 
 @Module({
   imports: [
     JwtModule,
-    ConfigModule.forFeature(accessTokenConfig),
-    ConfigModule.forFeature(refreshTokenConfig),
+    ConfigModule.forFeature(accessTokenJwtConfig),
+    ConfigModule.forFeature(refreshTokenJwtConfig),
     DrizzleModule,
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, AccessTokenStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    AccessTokenStrategy,
+    RefreshTokenStrategy,
+  ],
 })
 export class AuthModule {}

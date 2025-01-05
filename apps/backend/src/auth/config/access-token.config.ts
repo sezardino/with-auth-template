@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import { JwtSignOptions } from '@nestjs/jwt';
 
-export const accessTokenConfig = registerAs(
+export const accessTokenJwtConfig = registerAs(
   'access-token',
   (): JwtSignOptions => ({
     secret: process.env.ACCESS_TOKEN_SECRET,

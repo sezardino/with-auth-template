@@ -2,6 +2,7 @@ import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { RefreshTokenAuthGuard } from './guards/local-auth.guard copy';
 
 @Controller('auth')
 export class AuthController {
@@ -16,5 +17,11 @@ export class AuthController {
   @Post('login')
   login(@Request() req) {
     return this.authService.login(req.user.userId, req.user.login);
+  }
+
+  @UseGuards(RefreshTokenAuthGuard)
+  @Post('refresh')
+  refresh(@Request() req) {
+    return this.authService.refreshTokens(req.user.userId, req.user.login);
   }
 }
