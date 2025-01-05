@@ -4,7 +4,7 @@ import { ApplicationRoutes } from "@/const/routes";
 import dayjs from "dayjs";
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { Session } from "./types";
 
 const SESSION_COOKIE_NAME = "session";
@@ -52,4 +52,13 @@ export const getSession = async () => {
   } finally {
     if (redirectPath) redirect(redirectPath);
   }
+};
+
+export const validateSession = async () => {
+  const session = await getSession();
+
+  if (!session || !session.user)
+    return redirect(ApplicationRoutes.auth.login, RedirectType.replace);
+
+  return session;
 };

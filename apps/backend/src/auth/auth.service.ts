@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { verify } from 'argon2';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -29,7 +33,7 @@ export class AuthService {
 
     if (!isPasswordMatch) throw new ForbiddenException('Wrong credentials');
 
-    return { id: user.id, login: user.login };
+    return { userId: user.id, login: user.login };
   }
 
   async login(userId: string, login: string) {
@@ -48,5 +52,14 @@ export class AuthService {
     ]);
 
     return { accessToken };
+  }
+
+  async validateAccessToken(payload: AccessTokenPayload) {
+    console.log(payload);
+    const neededUser = await this.usersService.findOne({ id: payload.sub });
+
+    if (!neededUser) throw new UnauthorizedException();
+
+    return { id: neededUser.id, login: neededUser.login };
   }
 }

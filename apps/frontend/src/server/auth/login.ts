@@ -3,6 +3,7 @@
 import { LoginFormSchema, LoginFormValues } from "@/components/forms/login";
 
 import { ApplicationRoutes } from "@/const/routes";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSession } from "../session";
 import { FormState } from "../types";
@@ -33,5 +34,7 @@ export const loginAction = async (
     },
     accessToken: resJson.accessToken,
   });
+
+  revalidatePath(ApplicationRoutes.landing.home, "layout");
   redirect(ApplicationRoutes.landing.home);
 };
