@@ -6,13 +6,15 @@ import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { accessTokenConfig } from './config/access-token.config';
+import { refreshTokenConfig } from './config/refresh-token.config';
 import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
-    JwtModule.registerAsync(accessTokenConfig.asProvider()),
+    JwtModule,
     ConfigModule.forFeature(accessTokenConfig),
+    ConfigModule.forFeature(refreshTokenConfig),
     DrizzleModule,
     UsersModule,
   ],

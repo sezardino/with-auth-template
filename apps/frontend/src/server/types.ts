@@ -11,5 +11,5 @@ export type Session = {
     login: string;
   };
   accessToken: string;
-  // refreshToken: string
+  refreshToken: string;
 };

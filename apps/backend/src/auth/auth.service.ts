@@ -1,12 +1,16 @@
 import {
   ForbiddenException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { verify } from 'argon2';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
+import { accessTokenConfig } from './config/access-token.config';
+import { refreshTokenConfig } from './config/refresh-token.config';
 import { AccessTokenPayload } from './types/access-token-payload.types';
 
 @Injectable()
@@ -14,6 +18,14 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    @Inject(accessTokenConfig.KEY)
+    private readonly accessTokenConfiguration: ConfigType<
+      typeof accessTokenConfig
+    >,
+    @Inject(refreshTokenConfig.KEY)
+    private readonly refreshTokenConfiguration: ConfigType<
+      typeof refreshTokenConfig
+    >,
   ) {}
 
   async register(dto: CreateUserDto) {
@@ -37,9 +49,10 @@ export class AuthService {
   }
 
   async login(userId: string, login: string) {
-    const { accessToken } = await this.generateTokens(userId);
+    const { access: accessToken, refresh: refreshToken } =
+      await this.generateTokens(userId);
 
-    return { userId, login, accessToken };
+    return { userId, login, accessToken, refreshToken };
   }
 
   private async generateTokens(userId: string) {
@@ -47,15 +60,26 @@ export class AuthService {
       sub: userId,
     };
 
-    const [accessToken] = await Promise.all([
-      this.jwtService.signAsync(accessTokenPayload),
+    // TODO: add session info
+    const refreshTokenPayload: AccessTokenPayload = {
+      sub: userId,
+    };
+
+    const [access, refresh] = await Promise.all([
+      this.jwtService.signAsync(
+        accessTokenPayload,
+        this.accessTokenConfiguration,
+      ),
+      this.jwtService.signAsync(
+        refreshTokenPayload,
+        this.refreshTokenConfiguration,
+      ),
     ]);
 
-    return { accessToken };
+    return { access, refresh };
   }
 
   async validateAccessToken(payload: AccessTokenPayload) {
-    console.log(payload);
     const neededUser = await this.usersService.findOne({ id: payload.sub });
 
     if (!neededUser) throw new UnauthorizedException();

@@ -33,6 +33,7 @@ export const loginAction = async (
       login: resJson.login,
     },
     accessToken: resJson.accessToken,
+    refreshToken: resJson.refreshToken,
   });
 
   revalidatePath(ApplicationRoutes.landing.home, "layout");
