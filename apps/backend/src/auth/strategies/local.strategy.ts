@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from '../auth.service';
@@ -17,6 +17,8 @@ export class LocalStrategy extends PassportStrategy(
   }
 
   validate(login: string, password: string) {
+    if (password === '')
+      throw new UnauthorizedException('Password not provided');
     return this.authService.validateLocalUser(login, password);
   }
 }

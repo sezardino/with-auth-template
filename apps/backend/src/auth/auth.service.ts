@@ -11,6 +11,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
 import { accessTokenJwtConfig } from './config/access-token.config';
 import { refreshTokenJwtConfig } from './config/refresh-token.config';
+import { GoogleUserProfile } from './types/google';
 import {
   AccessTokenPayload,
   RefreshTokenPayload,
@@ -103,5 +104,23 @@ export class AuthService {
     if (!neededUser) throw new UnauthorizedException();
 
     return { id: neededUser.id, login: neededUser.login };
+  }
+
+  async validateGoogleUser(profile: GoogleUserProfile) {
+    const user = await this.usersService.findOne({
+      login: profile.emails[0].value,
+    });
+
+    if (user) {
+      const { password, ...restUser } = user; // eslint-disable-line @typescript-eslint/no-unused-vars
+
+      return restUser;
+    }
+
+    return await this.usersService.createUser({
+      login: profile.emails[0].value,
+      name: profile.displayName,
+      password: '',
+    });
   }
 }

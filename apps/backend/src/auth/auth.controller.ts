@@ -1,6 +1,14 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AuthService } from './auth.service';
+import { GoogleOauthGuard } from './guards/google-oauth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RefreshTokenAuthGuard } from './guards/refresh-token.guard';
 
@@ -25,4 +33,12 @@ export class AuthController {
     console.count('refresh');
     return this.authService.refreshTokens(req.user.id, req.user.login);
   }
+
+  @UseGuards(GoogleOauthGuard)
+  @Get('google/login')
+  googleLogin() {}
+
+  @UseGuards(GoogleOauthGuard)
+  @Get('google/callback')
+  googleCallback() {}
 }
