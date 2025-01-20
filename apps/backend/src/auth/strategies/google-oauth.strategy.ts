@@ -24,14 +24,14 @@ export class GoogleOauthStrategy extends PassportStrategy(
     });
   }
 
-  validate(
+  async validate(
     _at: string,
     _rt: string,
     profile: GoogleUserProfile,
     done: VerifyCallback,
   ) {
-    const user = this.authService.validateGoogleUser(profile);
-
+    const user = await this.authService.validateGoogleUser(profile);
+    console.log(user);
     done(null, user);
   }
 }

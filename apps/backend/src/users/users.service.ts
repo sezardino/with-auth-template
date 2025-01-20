@@ -18,7 +18,7 @@ export class UsersService {
 
     const hashedPassword = await hash(password);
 
-    const response = await this.drizzle
+    const [user] = await this.drizzle
       .insert(users)
       .values({
         password: hashedPassword,
@@ -26,7 +26,9 @@ export class UsersService {
       })
       .returning();
 
-    await this.profilesService.create({ userId: response[0].id, name: name });
+    await this.profilesService.create({ userId: user.id, name: name });
+
+    return { id: user.id, login: user.login };
   }
 
   async findOne(filter: { id?: string; login?: string }) {
